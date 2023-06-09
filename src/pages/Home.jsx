@@ -1,14 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import Papa from "papaparse";
+import React, { useState } from "react";
 import CustomTable from "../components/CustomTable";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  handleTableData,
-  filterTable,
-  parseFile,
-  handleFilterInput,
-} from "../features/TableData";
+import { parseFile, handleFilterInput } from "../features/TableData";
 const Home = () => {
   const dispatch = useDispatch();
   const { tableDataForFile, filterInput } = useSelector(
@@ -27,6 +21,9 @@ const Home = () => {
     alignItems: "center",
   };
 
+  const fontStyle = {
+    fontSize: "2rem",
+  };
   return (
     <Box sx={{ padding: "2rem", display: "grid", gap: "1rem" }}>
       <Typography sx={{ fontSize: "22px", fontWeight: "700px" }} variant="h1">
@@ -43,6 +40,7 @@ const Home = () => {
       <Box sx={flexItem}>
         <Typography variant="p">User Input</Typography>
         <input
+          className="user_input"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
         />
@@ -53,8 +51,25 @@ const Home = () => {
         >
           Filter
         </Button>
+        {/* {filterInput !== "" && (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => dispatch(handleFilterInput(""))}
+          >
+            Clear
+          </Button>
+        )} */}
       </Box>
-      <CustomTable tableDataForFile={tableDataForFile} />
+      {tableDataForFile.length > 1 ? (
+        <CustomTable tableDataForFile={tableDataForFile} />
+      ) : (
+        <Box sx={{ display: "grid", placeContent: "center", height: "50vh" }}>
+          <Typography variant="p" sx={{ fontStyle }}>
+            Import File
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

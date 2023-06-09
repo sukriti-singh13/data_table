@@ -6,11 +6,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
-import { MdDelete, MdModeEdit } from "react-icons/md";
-import React from "react";
-import { deleteRow } from "../features/TableData";
+import { MdDelete, MdModeEdit, MdOutlineDone, MdClose } from "react-icons/md";
+import React, { useState } from "react";
+import { deleteRow, editStocks, handleModalClose } from "../features/TableData";
 import { useDispatch, useSelector } from "react-redux";
 const CustomModal = () => {
   const style = {
@@ -28,38 +27,67 @@ const CustomModal = () => {
   const { isModalOpen, tableDataForFile, selectedRow } = useSelector(
     (store) => store.tableFileData
   );
-  // const deleteRow = (id) => {
-  //   setTableDataForFile(
-  //     tableDataForFile.filter(
-  //       (row) => row[selectedRow] !== tableDataForFile[id]
-  //     )
-  //   );
-  // };
+
+  const minWidthTable = {
+    minWidth: "110px",
+  };
+
+  const [editMode, setEditMode] = useState(false);
+  const [editTextOne, setEditTextOne] = useState(
+    tableDataForFile[selectedRow]["LOCATION A STOCK"]
+  );
   return (
-    <Modal
-      open={isModalOpen}
-    >
+    <Modal open={isModalOpen}>
       <>
-        <TableContainer component={Paper} style={style}>
+        <TableContainer component={Paper} elevation={3} sx={style}>
+          <Box
+            sx={{
+              cursor: "pointer",
+              display: "flex",
+              gap: "1rem",
+              borderBottom: "1px solid #eee",
+            }}
+          >
+            <span>
+              <MdClose
+                size="1.3rem"
+                onClick={() => dispatch(handleModalClose())}
+              />
+            </span>
+
+            <span>
+              {editMode ? (
+                ""
+              ) : (
+                <MdModeEdit size="1.3rem" onClick={() => setEditMode(true)} />
+              )}
+            </span>
+            <span>
+              <MdDelete
+                size="1.3rem"
+                onClick={() => dispatch(deleteRow(selectedRow))}
+              />
+            </span>
+          </Box>
           <TableHead>
             <TableRow>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" sx={minWidthTable}>
                 Part #
               </TableCell>
-              <TableCell>Alt.Part#</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Brand</TableCell>
-              <TableCell>Model</TableCell>
-              <TableCell>Engine</TableCell>
-              <TableCell>Car</TableCell>
-              <TableCell>["location A"]</TableCell>
-              <TableCell>["LOCATION A STOCK"]</TableCell>
-              <TableCell>["LOCATION B"]</TableCell>
-              <TableCell>["LOC B STOCK"]</TableCell>
-              <TableCell>Unit</TableCell>
-              <TableCell>Rate</TableCell>
-              <TableCell>Value</TableCell>
-              <TableCell>Remarks</TableCell>
+              <TableCell sx={minWidthTable}>Alt.Part#</TableCell>
+              <TableCell sx={minWidthTable}>Name</TableCell>
+              <TableCell sx={minWidthTable}>Brand</TableCell>
+              <TableCell sx={minWidthTable}>Model</TableCell>
+              <TableCell sx={minWidthTable}>Engine</TableCell>
+              <TableCell sx={minWidthTable}>Car</TableCell>
+              <TableCell sx={minWidthTable}>["location A"]</TableCell>
+              <TableCell sx={minWidthTable}>["LOCATION A STOCK"]</TableCell>
+              <TableCell sx={minWidthTable}>["LOCATION B"]</TableCell>
+              <TableCell sx={minWidthTable}>["LOC B STOCK"]</TableCell>
+              <TableCell sx={minWidthTable}>Unit</TableCell>
+              <TableCell sx={minWidthTable}>Rate</TableCell>
+              <TableCell sx={minWidthTable}>Value</TableCell>
+              <TableCell sx={minWidthTable}>Remarks</TableCell>
             </TableRow>
           </TableHead>
           <TableRow
@@ -77,9 +105,29 @@ const CustomModal = () => {
             <TableCell>{tableDataForFile[selectedRow].Engine}</TableCell>
             <TableCell>{tableDataForFile[selectedRow].Car}</TableCell>
             <TableCell>{tableDataForFile[selectedRow]["location A"]}</TableCell>
-            <TableCell>
-              {tableDataForFile[selectedRow]["LOCATION A STOCK"]}
-            </TableCell>
+            {editMode ? (
+              <TableCell>
+                <Box sx={{ display: "flex", gap: ".5rem" }}>
+                  <input
+                    value={editTextOne}
+                    onChange={(e) => setEditTextOne(e.target.value)}
+                  />
+
+                  <MdOutlineDone
+                    size="1.2rem"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                      dispatch(editStocks(editTextOne)), setEditMode(false);
+                    }}
+                  />
+                </Box>
+              </TableCell>
+            ) : (
+              <TableCell>
+                {tableDataForFile[selectedRow]["LOCATION A STOCK"]}
+              </TableCell>
+            )}
+
             <TableCell>{tableDataForFile[selectedRow]["LOCATION B"]}</TableCell>
             <TableCell>
               {tableDataForFile[selectedRow]["LOC B STOCK"]}
@@ -89,18 +137,6 @@ const CustomModal = () => {
             <TableCell>{tableDataForFile[selectedRow].Value}</TableCell>
             <TableCell>{tableDataForFile[selectedRow].Remarks}</TableCell>
           </TableRow>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "1rem",
-              marginTop: "1rem",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-          >
-            <MdModeEdit />
-            <MdDelete onClick={() => dispatch(deleteRow(selectedRow))} />
-          </Box>
         </TableContainer>
       </>
     </Modal>

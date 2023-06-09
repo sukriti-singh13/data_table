@@ -4,7 +4,7 @@ const initialState = {
   tableDataForFile: [{}],
   isModalOpen: false,
   selectedRow: 0,
-  filterInput: ''
+  filterInput: "",
 };
 
 export const parseFile = createAsyncThunk("table/parseFile", async (file) => {
@@ -14,6 +14,7 @@ export const parseFile = createAsyncThunk("table/parseFile", async (file) => {
       skipEmptyLines: true,
       complete: (results) => {
         resolve(results.data);
+        console.log(results.data);
       },
       error: (error) => {
         reject(error);
@@ -26,13 +27,11 @@ const tableDataSlice = createSlice({
   name: "tableData",
   initialState,
   reducers: {
-    handleFilterInput:(state,{payload}) => {
-        state.filterInput = payload
+    handleFilterInput: (state, { payload }) => {
+      state.filterInput = payload;
     },
 
     filterTable: (state, { payload }) => {
-      console.log(state.tableDataForFile);
-      // console.log(payload);
       if (payload.length > 2) {
         const filteredTable = state.tableDataForFile.filter(
           (item) => String(item["Part #"]).slice(0, 3) === payload
@@ -45,13 +44,23 @@ const tableDataSlice = createSlice({
       state.selectedRow = payload;
     },
     deleteRow: (state, { payload }) => {
-      console.log(payload);
-      console.log(state.tableDataForFile);
       let finalObjects = state.tableDataForFile.filter(
-        (item, index) => index!== payload
+        (item, index) => index !== payload
       );
-      console.log(finalObjects);
-      state.tableDataForFile = finalObjects
+
+      state.tableDataForFile = finalObjects;
+      state.isModalOpen = false;
+    },
+    editStocks: (state, { payload }) => {
+      const editedObjects = state.tableDataForFile.map((item, index) =>
+        index === state.selectedRow
+          ? { ...item, ["LOCATION A STOCK"]: payload }
+          : item
+      );
+
+      state.tableDataForFile = editedObjects;
+    },
+    handleModalClose: (state, { payload }) => {
       state.isModalOpen = false;
     },
   },
@@ -63,6 +72,13 @@ const tableDataSlice = createSlice({
   },
 });
 
-export const { handleTableData, filterTable, handleModal, deleteRow,handleFilterInput } =
-  tableDataSlice.actions;
+export const {
+  handleTableData,
+  filterTable,
+  handleModal,
+  deleteRow,
+  handleFilterInput,
+  editStocks,
+  handleModalClose,
+} = tableDataSlice.actions;
 export default tableDataSlice.reducer;
