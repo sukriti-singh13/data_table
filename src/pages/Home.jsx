@@ -26,9 +26,7 @@ const Home = () => {
   };
   return (
     <Box sx={{ padding: "2rem", display: "grid", gap: "1rem" }}>
-      <Typography sx={{ fontSize: "22px", fontWeight: "700px" }} variant="h1">
-        CSV Data Table
-      </Typography>
+      <h1>CSV Data Table</h1>
       <Box>
         <input
           type="file"

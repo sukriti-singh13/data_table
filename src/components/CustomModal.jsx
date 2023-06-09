@@ -36,6 +36,7 @@ const CustomModal = () => {
   const [editTextOne, setEditTextOne] = useState(
     tableDataForFile[selectedRow]["LOCATION A STOCK"]
   );
+
   return (
     <Modal open={isModalOpen}>
       <>
@@ -130,7 +131,7 @@ const CustomModal = () => {
 
             <TableCell>{tableDataForFile[selectedRow]["LOCATION B"]}</TableCell>
             <TableCell>
-              {tableDataForFile[selectedRow]["LOC B STOCK"]}
+              {tableDataForFile[selectedRow][`${"LOC B STOCK"}`]}
             </TableCell>
             <TableCell>{tableDataForFile[selectedRow].Unit}</TableCell>
             <TableCell>{tableDataForFile[selectedRow].Rate}</TableCell>

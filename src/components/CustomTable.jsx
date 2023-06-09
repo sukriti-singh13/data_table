@@ -20,7 +20,7 @@ const CustomTable = () => {
   const minWidthTable = {
     minWidth: "120px",
   };
-  
+
   return (
     <>
       {isModalOpen && <CustomModal />}
@@ -31,12 +31,17 @@ const CustomTable = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell component="th" scope="row" width="100%">
+              <TableCell
+                sx={minWidthTable}
+                component="th"
+                scope="row"
+                width="100%"
+              >
                 Part #
               </TableCell>
-              <TableCell>Alt.Part#</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Brand</TableCell>
+              <TableCell sx={minWidthTable}>Alt.Part#</TableCell>
+              <TableCell sx={minWidthTable}>Name</TableCell>
+              <TableCell sx={minWidthTable}>Brand</TableCell>
               <TableCell>Model</TableCell>
               <TableCell>Engine</TableCell>
               <TableCell>Car</TableCell>
@@ -66,12 +71,12 @@ const CustomTable = () => {
                     cursor: "pointer",
                   }}
                 >
-                  <TableCell component="th" scope="row" sx={minWidthTable}>
+                  <TableCell component="th" scope="row">
                     {row["Part #"]}
                   </TableCell>
 
-                  <TableCell sx={minWidthTable}>{row["Alt.Part#"]}</TableCell>
-                  <TableCell sx={minWidthTable}>{row.Name}</TableCell>
+                  <TableCell>{row["Alt.Part#"]}</TableCell>
+                  <TableCell>{row.Name}</TableCell>
                   <TableCell>{row.Brand}</TableCell>
                   <TableCell>{row.Model}</TableCell>
                   <TableCell>{row.Engine}</TableCell>
@@ -79,7 +84,7 @@ const CustomTable = () => {
                   <TableCell>{row["location A"]}</TableCell>
                   <TableCell>{row["LOCATION A STOCK"]}</TableCell>
                   <TableCell>{row["LOCATION B"]}</TableCell>
-                  <TableCell>{row[`"LOC B STOCK "`]}</TableCell>
+                  <TableCell>{row[`${"LOC B STOCK "}`]}</TableCell>
                   <TableCell>{row.Unit}</TableCell>
                   <TableCell>{row.Rate}</TableCell>
                   <TableCell>{row.Value}</TableCell>
