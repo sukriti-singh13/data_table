@@ -12,38 +12,37 @@ import React, { useState } from "react";
 import { deleteRow, editStocks, handleModalClose } from "../features/TableData";
 import { useDispatch, useSelector } from "react-redux";
 const CustomModal = () => {
-  const style = {
- 
-     width: "80vw",
-    backgroundColor: "#fff",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
+  
   const dispatch = useDispatch();
   const { isModalOpen, tableDataForFile, selectedRow } = useSelector(
     (store) => store.tableFileData
   );
-
-  const [tempData,setTempData]=useState(tableDataForFile)
-  const minWidthTable = {
-    minWidth: "110px",
-  };
 
   const [editMode, setEditMode] = useState(false);
   const [editTextOne, setEditTextOne] = useState(
     tableDataForFile[selectedRow]["LOCATION A STOCK"]
   );
 
+  const tableContainerStyle = {
+   width: "80vw",
+   backgroundColor: "#fff",
+   position: "absolute",
+   top: "50%",
+   left: "50%",
+   transform: "translate(-50%, -50%)",
+   border: "2px solid #000",
+   boxShadow: 24,
+   p: 4,
+ };
+ 
+ const minWidthTable = {
+  minWidth: "110px",
+};
 
   return (
     <Modal open={isModalOpen}>
       <>
-        <TableContainer  component={Paper} elevation={3} sx={style}>
+        <TableContainer  component={Paper} elevation={3} sx={tableContainerStyle }>
           <Box
             sx={{
               position: "sticky",

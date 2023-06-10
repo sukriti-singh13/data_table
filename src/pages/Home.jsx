@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { parseFile, handleFilterInput } from "../features/TableData";
 const Home = () => {
   const dispatch = useDispatch();
-  const { tableDataForFile, filterInput } = useSelector(
+  const { tableDataForFile } = useSelector(
     (store) => store.tableFileData
   );
   const [userInput, setUserInput] = useState("");
@@ -49,15 +49,6 @@ const Home = () => {
         >
           Filter
         </Button>
-        {/* {filterInput !== "" && (
-          <Button
-            size="small"
-            variant="contained"
-            onClick={() => dispatch(handleFilterInput(""))}
-          >
-            Clear
-          </Button>
-        )} */}
       </Box>
       {tableDataForFile.length > 1 ? (
         <CustomTable tableDataForFile={tableDataForFile} />

@@ -14,7 +14,6 @@ export const parseFile = createAsyncThunk("table/parseFile", async (file) => {
       skipEmptyLines: true,
       complete: (results) => {
         resolve(results.data);
-        console.log(results.data);
       },
       error: (error) => {
         reject(error);
