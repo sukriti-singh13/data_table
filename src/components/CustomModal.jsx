@@ -13,7 +13,8 @@ import { deleteRow, editStocks, handleModalClose } from "../features/TableData";
 import { useDispatch, useSelector } from "react-redux";
 const CustomModal = () => {
   const style = {
-    width: "80vw",
+ 
+     width: "80vw",
     backgroundColor: "#fff",
     position: "absolute",
     top: "50%",
@@ -28,6 +29,7 @@ const CustomModal = () => {
     (store) => store.tableFileData
   );
 
+  const [tempData,setTempData]=useState(tableDataForFile)
   const minWidthTable = {
     minWidth: "110px",
   };
@@ -37,12 +39,16 @@ const CustomModal = () => {
     tableDataForFile[selectedRow]["LOCATION A STOCK"]
   );
 
+
   return (
     <Modal open={isModalOpen}>
       <>
-        <TableContainer component={Paper} elevation={3} sx={style}>
+        <TableContainer  component={Paper} elevation={3} sx={style}>
           <Box
             sx={{
+              position: "sticky",
+              top: "0px",
+              left: "0px",
               cursor: "pointer",
               display: "flex",
               gap: "1rem",
@@ -131,7 +137,7 @@ const CustomModal = () => {
 
             <TableCell>{tableDataForFile[selectedRow]["LOCATION B"]}</TableCell>
             <TableCell>
-              {tableDataForFile[selectedRow][`${"LOC B STOCK"}`]}
+              {tableDataForFile[selectedRow][`${"LOC B STOCK "}`]}
             </TableCell>
             <TableCell>{tableDataForFile[selectedRow].Unit}</TableCell>
             <TableCell>{tableDataForFile[selectedRow].Rate}</TableCell>
